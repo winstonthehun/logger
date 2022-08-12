@@ -2,7 +2,8 @@ const logger = require("./index").default;
 
 const message = "test-message";
 const data = ["random", "stuff"];
-const stringifiedData = '{"data":["random","stuff"]}';
+const stringifiedData =
+  '{"message":"test-message","data":{"data":["random","stuff"]}}';
 
 describe("Log levels", () => {
   beforeAll(() => {
@@ -11,7 +12,8 @@ describe("Log levels", () => {
     process.env.LOG_LEVEL = "info";
   });
 
-  afterAll(() => {
+  afterEach(() => {
+    jest.clearAllMocks();
     process.env.LOG_LEVEL = undefined;
   });
 
@@ -30,17 +32,19 @@ describe("Log levels", () => {
 
 describe("Production logs", () => {
   beforeAll(() => {
+    jest.spyOn(global.console, "info");
     process.env.NODE_ENV = "production";
   });
 
-  afterAll(() => {
+  afterEach(() => {
+    jest.clearAllMocks();
     process.env.NODE_ENV = "development";
   });
 
   test("data is stringified in production", () => {
     logger.info(message, { data });
 
-    expect(console.info).toHaveBeenCalledWith(message, stringifiedData);
+    expect(console.info).toHaveBeenCalledWith(stringifiedData);
   });
 });
 
@@ -50,7 +54,8 @@ describe("Redacts secret", () => {
     process.env.NODE_ENV = "production";
   });
 
-  afterAll(() => {
+  afterEach(() => {
+    jest.clearAllMocks();
     process.env.NODE_ENV = "development";
   });
 
@@ -63,9 +68,9 @@ describe("Redacts secret", () => {
     };
     logger.info(message, payload);
     const stringifiedSecretData =
-      '{"authorization":"REDACTED","nested":{"password":"REDACTED"}}';
+      '{"message":"test-message","data":{"authorization":"REDACTED","nested":{"password":"REDACTED"}}}';
 
-    expect(console.info).toHaveBeenCalledWith(message, stringifiedSecretData);
+    expect(console.info).toHaveBeenCalledWith(stringifiedSecretData);
 
     // verify that source object is not mutated
     expect(payload).toEqual({

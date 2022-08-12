@@ -10,7 +10,8 @@ const sensitiveKeys = [
   "authorization",
 ];
 
-const redact = (k, v) => (sensitiveKeys.includes(k.toLowerCase()) ? "REDACTED" : v);
+const redact = (k, v) =>
+  sensitiveKeys.includes(k.toLowerCase()) ? "REDACTED" : v;
 
 const log = (level) => (message, data) => {
   const isProduction = process.env.NODE_ENV === "production";
@@ -23,10 +24,12 @@ const log = (level) => (message, data) => {
 
   const printPretty = !isProduction || isBrowser;
 
-  return console[level](
-    message,
-    printPretty ? data : JSON.stringify(data, redact, 0)
-  );
+  if (printPretty) {
+    return console[level](message, data);
+  }
+
+  // TODO: include timestamp
+  return console[level](JSON.stringify({ message, data }, redact, null));
 };
 
 const logger = {
