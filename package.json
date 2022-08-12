@@ -1,0 +1,14 @@
+{
+  "name": "logger",
+  "version": "0.0.1",
+  "description": "The simple zero dependency logger I always wanted",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --silent --verbose"
+  },
+  "author": "@winstonthehun",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^28.1.3"
+  }
+}
