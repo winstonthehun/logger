@@ -28,8 +28,9 @@ const log = (level) => (message, data) => {
     return console[level](message, data);
   }
 
-  // TODO: include timestamp
-  return console[level](JSON.stringify({ message, data }, redact, null));
+  return console[level](
+    JSON.stringify({ ts: Date.now(), message, data }, redact, null)
+  );
 };
 
 const logger = {

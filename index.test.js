@@ -2,8 +2,8 @@ const logger = require("./index").default;
 
 const message = "test-message";
 const data = ["random", "stuff"];
-const stringifiedData =
-  '{"message":"test-message","data":{"data":["random","stuff"]}}';
+
+global.Date.now = () => 1660331324452;
 
 describe("Log levels", () => {
   beforeAll(() => {
@@ -43,6 +43,8 @@ describe("Production logs", () => {
 
   test("data is stringified in production", () => {
     logger.info(message, { data });
+    const stringifiedData =
+      '{"ts":1660331324452,"message":"test-message","data":{"data":["random","stuff"]}}';
 
     expect(console.info).toHaveBeenCalledWith(stringifiedData);
   });
@@ -68,7 +70,7 @@ describe("Redacts secret", () => {
     };
     logger.info(message, payload);
     const stringifiedSecretData =
-      '{"message":"test-message","data":{"authorization":"REDACTED","nested":{"password":"REDACTED"}}}';
+      '{"ts":1660331324452,"message":"test-message","data":{"authorization":"REDACTED","nested":{"password":"REDACTED"}}}';
 
     expect(console.info).toHaveBeenCalledWith(stringifiedSecretData);
 
