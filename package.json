@@ -6,6 +6,9 @@
   "files": [
     "index.js"
   ],
+  "publishConfig": {
+    "registry":"https://npm.pkg.github.com"
+  },
   "scripts": {
     "test": "jest --silent --verbose --coverage"
   },
