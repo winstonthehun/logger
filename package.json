@@ -1,13 +1,13 @@
 {
   "name": "@winstonthehun/logger",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The simple zero dependency logger I always wanted",
   "main": "index.js",
   "files": [
     "index.js"
   ],
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "test": "jest --silent --verbose --coverage"
