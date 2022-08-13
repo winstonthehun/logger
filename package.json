@@ -4,11 +4,21 @@
   "description": "The simple zero dependency logger I always wanted",
   "main": "index.js",
   "scripts": {
-    "test": "jest --silent --verbose"
+    "test": "jest --silent --verbose --coverage"
   },
   "author": "@winstonthehun",
   "license": "MIT",
   "devDependencies": {
     "jest": "^28.1.3"
+  },
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 0
+      }
+    }
   }
 }

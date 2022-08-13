@@ -13,24 +13,23 @@ const redact = (k, v) =>
 const envLogLevel = process.env.LOG_LEVEL || "info";
 const LogLevels = { error: 4, warn: 3, info: 2, log: 1, debug: 0 };
 
-const log = (level) => (message, data) => {
-  const isProduction = process.env.NODE_ENV === "production";
-  const isBrowser = typeof window !== "undefined";
-
+const log = (level) => {
   // swallow logs with log levels below current config
   if (LogLevels[level] < LogLevels[envLogLevel]) {
     return () => null;
   }
 
-  const printPretty = !isProduction || isBrowser;
+  return (message, data) => {
+    const isProduction = process.env.NODE_ENV === "production";
+    const isBrowser = typeof window !== "undefined";
+    const printPretty = !isProduction || isBrowser;
 
-  if (printPretty) {
-    return console[level](message, data);
-  }
-
-  return console[level](
-    JSON.stringify({ ts: Date.now(), message, data }, redact, null)
-  );
+    printPretty
+      ? console[level](message, data)
+      : console[level](
+          JSON.stringify({ ts: Date.now(), message, data }, redact, null)
+        );
+  };
 };
 
 const logger = {
