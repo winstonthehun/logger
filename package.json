@@ -1,12 +1,16 @@
 {
-  "name": "logger",
+  "name": "@winstonthehun/logger",
   "version": "0.0.1",
   "description": "The simple zero dependency logger I always wanted",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
     "test": "jest --silent --verbose --coverage"
   },
-  "author": "@winstonthehun",
+  "repository": "https://github.com/winstonthehun/logger.git",
+  "author": "Winston Sebesta <winston@sebesta.io> (https://github.com/winstonthehun)",
   "license": "MIT",
   "devDependencies": {
     "jest": "^28.1.3"
